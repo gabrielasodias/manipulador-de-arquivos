@@ -12,17 +12,13 @@ class ManipuladorDeArquivos:
             with open(self.nome_arquivo, modo) as arquivo:
                 return arquivo.read()
         except FileNotFoundError:
-            print(f"\nArquivo {self.nome_arquivo} não encontrado.")
-            return None
+            raise FileNotFoundError(f"\nArquivo {self.nome_arquivo} não encontrado.")
 
     def editar_arquivo(self, novo_conteudo, modo='a'):
-        try:
-            with open(self.nome_arquivo, modo) as arquivo:
-                arquivo.write(novo_conteudo)
-            print(f"\nConteúdo do arquivo {self.nome_arquivo} atualizado.")
-        except FileNotFoundError:
-            print(f"\nArquivo {self.nome_arquivo} não encontrado.")
-
+        with open(self.nome_arquivo, modo) as arquivo:
+            arquivo.write(novo_conteudo)
+        print(f"\nConteúdo do arquivo {self.nome_arquivo} atualizado.")
+        
     def reescrever_arquivo(self, novo_conteudo):
         self.editar_arquivo(novo_conteudo, modo='w')
 
@@ -60,5 +56,5 @@ try:
             case _:
                 print('\nOpção Inválida')
                 
-except:
-    print('Você finalizou o programa ou ocorreu um erro.')
+except Exception as e:
+    print(f'Ocorreu um erro: {e}')
